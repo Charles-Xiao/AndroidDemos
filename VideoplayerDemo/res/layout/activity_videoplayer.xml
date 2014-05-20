@@ -1,0 +1,58 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:gravity="center"
+    	android:layout_alignParentBottom="true">
+        
+         <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+             
+             	<ImageButton
+                    android:id="@+id/mediacontroller_lock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:contentDescription="controller"
+                    android:src="@drawable/mediacontroller_play01" />
+             	
+                <TextView
+                    android:id="@+id/mediacontroller_time_current"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toRightOf="@id/mediacontroller_lock"
+                    android:text="00:00"
+                    android:textSize="25dp" />
+
+                <SeekBar
+                    android:id="@+id/mediacontroller_seekbar"
+                    android:layout_width="400dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toRightOf="@id/mediacontroller_time_current"
+                    android:focusable="true"
+                    android:max="1000"
+                    android:minHeight="23dp" />
+                
+                <TextView
+                    android:id="@+id/mediacontroller_time_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toRightOf="@id/mediacontroller_seekbar"                    
+                    android:text="01:00"
+                    android:textSize="25dp" />               
+
+            </RelativeLayout>
+    </LinearLayout>
+    
+</RelativeLayout>

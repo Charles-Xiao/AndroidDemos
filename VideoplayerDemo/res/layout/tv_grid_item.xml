@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView 
+        android:id="@+id/videotvbg"
+        android:layout_width="@dimen/gridvideolistitem_picwidth"
+        android:layout_height="@dimen/gridvideolistitem_picheight"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/gridvideolistitem_detailfont"
+        android:text="  test"
+        android:gravity="bottom"
+        android:background="@drawable/program_loading_bg">
+    </TextView>
+	<TextView 
+	    android:id="@+id/videotvName"
+	  	android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/gridvideolistitem_namefont"
+        android:text="XXXX"
+        android:textColor="@android:color/white"
+        android:gravity="center_horizontal" 
+        android:singleLine="true"
+        android:layout_marginTop="5dp">
+    </TextView>
+</LinearLayout>

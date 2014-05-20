@@ -1,0 +1,23 @@
+<resources>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="green">#FF00FF00</color>
+    <color name="blue">#FF0000FF</color>
+    <color name="nowpublic">#E62138</color>
+    <color name="shoppingcart">#2F318B</color>
+    <color name="house">#B04B87</color>
+    <color name="police">#009B4C</color>
+    <color name="idcard">#297AED</color>
+    <color name="clean">#DED572</color>
+    <color name="business">#5E5872</color>
+    <color name="building">#897870</color> 
+    <color name="traffic">#F08519</color> 
+    <color name="chat">#B04B87</color> 
+    <color name="student">#12623E</color>
+    <color name="lightbulb">#566892</color> 
+    <color name="camera2">#297AED</color>
+    
+    <color name="tabtile_focus">#00FF00</color>
+    <color name="tabtile_normal">#00FF00</color>
+    
+</resources>
