@@ -1,0 +1,97 @@
+package com.example.sdkui.widget;
+
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.widget.TextView;
+import android.widget.Toast;
+
+//http://blog.csdn.net/u010839233/article/details/17680807
+public class AddAndSubText extends TextView {
+	Drawable mADD, mSUB;
+	Context mContext;
+
+	public AddAndSubText(Context context) {
+		super(context);
+		mContext = context;
+	}
+
+	public AddAndSubText(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		mContext = context;
+		init();// 初始化
+	}
+
+	/**
+	 * 初始化，设置初始值
+	 */
+	private void init() {
+
+		// 本来想要在这里设置加减号图片，可是似乎这样做不行，知道的请告诉我吧
+		// mADD = getResources().getDrawable(R.drawable.public_plus);
+		// mSUB = getResources().getDrawable(R.drawable.public_minus);
+		mADD = getCompoundDrawables()[0];
+		mSUB = getCompoundDrawables()[2];
+		this.setText(1 + "");// 设置初始值为1
+	}
+
+	/**
+	 * 获取点击时X值，判断其所在位置来虚拟点击事件
+	 */
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+
+		int num;
+		float X, add_left, add_right, sub_left, sub_right;
+		X = event.getX();
+		add_right = getTotalPaddingLeft();
+		add_left = getPaddingLeft();
+		sub_right = getWidth() - getPaddingRight();
+		sub_left = getWidth() - getTotalPaddingRight();
+		if (TextUtils.isEmpty(this.getText().toString())) {
+			num = 1;
+		} else {
+			num = Integer.parseInt(getText().toString());
+		}
+		if (X > add_left && X < add_right) {
+			num++;
+			num = setCheckadle(num);// 检验当前输入框数字,若为0则设置减号按钮不可见
+			this.setText(num + "");
+
+		} else if (X > sub_left && X < sub_right) {
+			num--;
+			num = setCheckadle(num);// 检验当前输入框数字,若不<1则正常显示
+			if (num <= 1) {
+				this.setText("1");
+			} else {
+				this.setText(num + "");
+			}
+
+		}
+		return super.onTouchEvent(event);
+	}
+
+	/**
+	 * 判断num值，对加减号进行设置：若num = 0，减号不可用；若num = 99，加号不可用（限制num在0~99区间）
+	 * 
+	 * @param num
+	 * @return
+	 */
+	private int setCheckadle(int num) {
+		if (num <= 1) {
+			Toast.makeText(mContext, "亲，数量至少为1哦~",
+					Toast.LENGTH_SHORT).show();
+		}
+		if (num == 99) {
+			setCompoundDrawables(null, getCompoundDrawables()[1],
+					getCompoundDrawables()[2], getCompoundDrawables()[3]);
+		} else {
+			setCompoundDrawables(mADD, getCompoundDrawables()[1],
+					getCompoundDrawables()[2], getCompoundDrawables()[3]);
+		}
+		return num;
+	}
+
+}
