@@ -1,0 +1,131 @@
+package com.example.sdkui.widget;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.graphics.Canvas;
+import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.ViewGroup.MarginLayoutParams;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+
+import com.example.sdkui.R;
+import com.example.sdkui.utils.PreferencesUtils;
+
+public class DragEditText extends EditText {
+
+	private static final String TAG = "DragEditText";
+	// iv控件的左右上下位置值
+	int ivLeft;
+	int ivRight;
+	int ivTop;
+	int ivBottom;
+	private int screenWidth;
+	private int screenHeight;
+
+	public DragEditText(Context context) {
+		super(context);
+		init();
+	}
+
+	public DragEditText(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		init();
+	}
+
+	private void init() {
+		DisplayMetrics dm = getResources().getDisplayMetrics();
+		screenWidth = dm.widthPixels;
+		screenHeight = dm.heightPixels - 50;
+		ivRight = screenWidth;
+		ivTop = (int) (getResources().getDimension(R.dimen.forbackview_height));
+		ivBottom = (int) (screenHeight - getResources().getDimension(
+				R.dimen.tab_height));
+	}
+
+	int lastX, lastY;
+	int left = 0, right = 0, top = 0, bottom = 0;
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		int ea = event.getAction();
+		Log.d(TAG, "onTouch:" + ea);
+
+		switch (ea) {
+		case MotionEvent.ACTION_DOWN:
+			lastX = (int) event.getRawX();
+			lastY = (int) event.getRawY();
+			break;
+		/**
+		 * layout(l,t,r,b) l Left position, relative to parent t Top position,
+		 * relative to parent r Right position, relative to parent b Bottom
+		 * position, relative to parent
+		 * */
+		case MotionEvent.ACTION_MOVE:
+			// move的距离值
+			int dx = (int) event.getRawX() - lastX;
+			int dy = (int) event.getRawY() - lastY;
+
+			left = this.getLeft() + dx;
+			top = this.getTop() + dy;
+			right = this.getRight() + dx;
+			bottom = this.getBottom() + dy;
+
+			if (left < ivLeft) {
+				left = ivLeft;
+				right = left + this.getWidth();
+			}
+
+			if (right > ivRight) {
+				right = ivRight;
+				left = right - this.getWidth();
+			}
+
+			if (top < ivTop) {
+				top = ivTop;
+				bottom = top + this.getHeight();
+			}
+
+			if (bottom > ivBottom) {
+				bottom = ivBottom;
+				top = bottom - this.getHeight();
+			}
+
+			this.layout(left, top, right, bottom); // 自动调用onlayout函数
+			PreferencesUtils.setTextX(getContext(), left);
+			PreferencesUtils.setTextY(getContext(), bottom);
+			Log.d(TAG, "move position: " + left + ", " + top + ", " + right
+					+ ", " + bottom + "getWidth():" + getWidth()
+					+ "getHeight():" + getHeight() + "screenWidth():"
+					+ screenWidth + "screenHeight():" + screenHeight);
+
+			lastX = (int) event.getRawX();
+			lastY = (int) event.getRawY();
+
+			break;
+		case MotionEvent.ACTION_UP:
+			FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) this
+					.getLayoutParams();
+			params.setMargins(PreferencesUtils.getTextX(getContext()),
+					PreferencesUtils.getTextY(getContext()) - getHeight(), 0, 0);
+			Log.d(TAG,
+					"getWidth():" + getWidth() + "getHeight():" + getHeight()
+							+ "TextX:"
+							+ PreferencesUtils.getTextX(getContext())
+							+ "TextY:"
+							+ PreferencesUtils.getTextY(getContext()));
+			this.setLayoutParams(params);
+			this.requestLayout();
+			break;
+		}
+		return super.onTouchEvent(event);
+	}
+
+	@Override
+	public void onDraw(Canvas canvas) {
+		super.onDraw(canvas);
+	}
+
+}
